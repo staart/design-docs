@@ -43,3 +43,7 @@ Other implementation notes:
 - `read` is a strict subset of `write`, so if a user has `write` access to a resource, they also have `read` access to it; therefore:
   - A token cannot have both `read` and `write` access to the same resource
 - Superadmins by definition have all rights, so they have the scope `urn:staart:*:*:write`
+
+## Unstructured ideas
+
+- Use [`p-min-delay`](https://github.com/sindresorhus/p-min-delay) to delay responding to auth requests to at least 1 second to prevent timing attacks. For example, making a request to `/auth/login` will always take 1 second (even though it should usually be much shorter) so that it's impossible to know whether a user exists or not (since throwing a 404 is faster than when a user exists and password comparisons take place) and also useful for hash comparisons.
